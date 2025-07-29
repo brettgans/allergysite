@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnackSafely - Making Snack Time Safer for Everyone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .logo h1 {
+            color: #2563eb;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo p {
+            color: #6b7280;
+            font-size: 0.75rem;
+            margin-top: -4px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #374151;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #2563eb;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            padding: 1rem 0;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 0.5rem 0;
+            color: #374151;
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #dbeafe 0%, #dcfce7 100%);
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .highlight {
+            color: #2563eb;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            max-width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .email-capture {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 2rem;
+            max-width: 448px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .email-capture h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 1rem;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .email-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .email-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .email-note {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            margin: 0 auto 0.5rem auto;
+            background-size: contain;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .stat-label {
+            color: #6b7280;
+        }
+
+        /* Articles Section */
+        .articles {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #6b7280;
+            max-width: 512px;
+            margin: 0 auto;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .article-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .article-content {
+            padding: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .article-category {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.25rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .article-date {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .article-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .article-excerpt {
+            color: #6b7280;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .article-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .article-link:hover {
+            color: #1d4ed8;
+        }
+
+        .view-all-btn {
+            background: #2563eb;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .view-all-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 4rem 0;
+            background: #f9fafb;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 2rem;
+            max-width: 768px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            gap: 0.25rem;
+        }
+
+        .star {
+            color: #fbbf24;
+            font-size: 1.25rem;
+        }
+
+        .testimonial-text {
+            font-size: 1.25rem;
+            color: #374151;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .testimonial-role {
+            color: #6b7280;
+        }
+
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .nav-btn {
+            background: #f3f4f6;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .nav-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d1d5db;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .nav-dot.active {
+            background: #2563eb;
+        }
+
+        /* Brand CTA */
+        .brand-cta {
+            background: #059669;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .brand-cta h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .brand-cta p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            background: white;
+            color: #059669;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .cta-primary:hover {
+            background: #f9fafb;
+        }
+
+        .cta-secondary {
+            border: 2px solid white;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #059669;
+        }
+
+        /* Footer */
+        .footer {
+            background: #111827;
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            max-width: 400px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: white;
+        }
+
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            color: #d1d5db;
+        }
+
+        .contact-icon {
+            margin-right: 0.75rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .email-form {
+                flex-direction: column;
+            }
+
+            .email-input {
+                min-width: auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.125rem;
+            }
+
+            .email-capture {
+                padding: 1.5rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>SnackSafely</h1>
+                    <p>Going beyond the label</p>
+                </div>
+                
+                <nav class="nav">
+                    <a href="#home">Home</a>
+                    <a href="#guide">Safe Snack Guide</a>
+                    <a href="#news">Allergy News</a>
+                    <a href="#education">Allergy 101</a>
+                    <a href="#brands">For Brands</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            </div>
+            
+            <nav class="mobile-nav" id="mobileNav">
+                <div class="container">
+                    <a href="#home">Home</a>
+                    <a href="#guide">Safe Snack Guide</a>
+                    <a href="#news">Allergy News</a>
+                    <a href="#education">Allergy 101</a>
+                    <a href="#brands">For Brands</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h2>Making Snack Time Safer<br><span class="highlight">for Everyone</span></h2>
+            <p>Going beyond the label to bring you the latest in food allergy news, research, and products. Serving 32 million Americans with food allergies with trusted, actionable information.</p>
+            
+            <div class="email-capture">
+                <h3>Get Your Free Safe Snack Guide</h3>
+                <form class="email-form" onsubmit="submitEmail(event)">
+                    <input type="email" class="email-input" placeholder="Enter your email" required>
+                    <button type="submit" class="email-btn">Download Guide →</button>
+                </form>
+                <p class="email-note">Join thousands of families keeping snack time safe</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number">32M+</div>
+                    <div class="stat-label">Americans with food allergies</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🛡️</div>
+                    <div class="stat-number">180+</div>
+                    <div class="stat-label">Partner food manufacturers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-number">5.9M</div>
+                    <div class="stat-label">Children with food allergies</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Section -->
+    <section class="articles" id="news">
+        <div class="container">
+            <div class="section-header">
+                <h2>Latest Food Allergy News</h2>
+                <p>Stay informed with the latest research, breakthrough treatments, and success stories from the food allergy community.</p>
+            </div>
+
+            <div class="articles-grid">
+                <article class="article-card">
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-category">Research</span>
+                            <span class="article-date">June 2025</span>
+                        </div>
+                        <h3 class="article-title">Optimism Grows for Toddlers with Peanut Allergies as Viaskin Patch Safety Study Begins</h3>
+                        <p class="article-excerpt">DBV Technologies anticipates their submission to the FDA will occur in the second half of 2026</p>
+                        <a href="#" class="article-link">Read More →</a>
+                    </div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-category">Success Stories</span>
+                            <span class="article-date">March 2025</span>
+                        </div>
+                        <h3 class="article-title">From 23 Allergies to Food Freedom: Isaiah's Journey with TIP</h3>
+                        <p class="article-excerpt">His journey highlights the challenges he overcame and offers valuable advice for other teens considering TIP treatment.</p>
+                        <a href="#" class="article-link">Read More →</a>
+                    </div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-category">Research</span>
+                            <span class="article-date">April 2025</span>
+                        </div>
+                        <h3 class="article-title">A Conversation About Food Allergy Science Initiative Research</h3>
+                        <p class="article-excerpt">If you were wondering whether food allergy research was making progress, watch this video and wonder no more.</p>
+                        <a href="#" class="article-link">Read More →</a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="text-center">
+                <a href="#" class="view-all-btn">View All Articles →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2>Trusted by Families Everywhere</h2>
+                <p>See how SnackSafely is making a difference in the lives of families, schools, and food brands.</p>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <blockquote class="testimonial-text" id="testimonialText">
+                    "SnackSafely has been a lifesaver for our family. Their Safe Snack Guide gives me confidence when shopping for my daughter's severe peanut allergy."
+                </blockquote>
+                <div class="testimonial-author" id="testimonialAuthor">Sarah M.</div>
+                <div class="testimonial-role" id="testimonialRole">Parent of child with food allergies</div>
+                
+                <div class="testimonial-nav">
+                    <button class="nav-btn" onclick="prevTestimonial()">‹</button>
+                    <div class="nav-dots">
+                        <button class="nav-dot active" onclick="setTestimonial(0)"></button>
+                        <button class="nav-dot" onclick="setTestimonial(1)"></button>
+                        <button class="nav-dot" onclick="setTestimonial(2)"></button>
+                    </div>
+                    <button class="nav-btn" onclick="nextTestimonial()">›</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand CTA Section -->
+    <section class="brand-cta" id="brands">
+        <div class="container">
+            <h2>❤️ Food Brands: Join Our Mission</h2>
+            <p>Partner with SnackSafely to provide transparency and build trust with the food allergy community. Over 180 manufacturers already trust us to showcase their allergen-friendly products.</p>
+            <div class="cta-buttons">
+                <a href="#" class="cta-primary">List Your Product →</a>
+                <a href="#" class="cta-secondary">Learn About Partnership</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>SnackSafely</h3>
+                    <p>Going beyond the label to bring you the latest in food allergy news, research, and products. Dedicated to serving the 32 million Americans with food allergies.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#guide">Safe Snack Guide</a></li>
+                        <li><a href="#news">Allergy News</a></li>
+                        <li><a href="#education">Allergy 101</a></li>
+                        <li><a href="#brands">For Brands</a></li>
+                        <li><a href="#about">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <div class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <a href="mailto:info@snacksafely.com">info@snacksafely.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <span>1-800-SNACK-SAFE</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span>United States</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2025 SnackSafely.com. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        var currentTestimonial = 0;
+        
+        var testimonial1Text = "SnackSafely has been a lifesaver for our family. Their Safe Snack Guide gives me confidence when shopping for my daughter's severe peanut allergy.";
+        var testimonial1Author = "Sarah M.";
+        var testimonial1Role = "Parent of child with food allergies";
+        
+        var testimonial2Text = "As a school nurse, I rely on SnackSafely's resources to keep our students safe. Their guides are comprehensive and easy to understand.";
+        var testimonial2Author = "Maria Rodriguez, RN";
+        var testimonial2Role = "Elementary School Nurse";
+        
+        var testimonial3Text = "The transparency SnackSafely promotes has helped our brand better serve the allergy community. Their partnership program is invaluable.";
+        var testimonial3Author = "David Chen";
+        var testimonial3Role = "Food Brand Manager";
+
+        function toggleMobileMenu() {
+            var mobileNav = document.getElementById('mobileNav');
+            if (mobileNav.className.indexOf('active') > -1) {
+                mobileNav.className = mobileNav.className.replace(' active', '');
+            } else {
+                mobileNav.className = mobileNav.className + ' active';
+            }
+        }
+
+        function updateTestimonial() {
+            var textEl = document.getElementById('testimonialText');
+            var authorEl = document.getElementById('testimonialAuthor');
+            var roleEl = document.getElementById('testimonialRole');
+            
+            if (currentTestimonial === 0) {
+                textEl.innerHTML = '"' + testimonial1Text + '"';
+                authorEl.innerHTML = testimonial1Author;
+                roleEl.innerHTML = testimonial1Role;
+            } else if (currentTestimonial === 1) {
+                textEl.innerHTML = '"' + testimonial2Text + '"';
+                authorEl.innerHTML = testimonial2Author;
+                roleEl.innerHTML = testimonial2Role;
+            } else {
+                textEl.innerHTML = '"' + testimonial3Text + '"';
+                authorEl.innerHTML = testimonial3Author;
+                roleEl.innerHTML = testimonial3Role;
+            }
+            
+            var dots = document.getElementsByClassName('nav-dot');
+            for (var i = 0; i < dots.length; i++) {
+                if (i === currentTestimonial) {
+                    dots[i].className = 'nav-dot active';
+                } else {
+                    dots[i].className = 'nav-dot';
+                }
+            }
+        }
+
+        function nextTestimonial() {
+            currentTestimonial = currentTestimonial + 1;
+            if (currentTestimonial > 2) {
+                currentTestimonial = 0;
+            }
+            updateTestimonial();
+        }
+
+        function prevTestimonial() {
+            currentTestimonial = currentTestimonial - 1;
+            if (currentTestimonial < 0) {
+                currentTestimonial = 2;
+            }
+            updateTestimonial();
+        }
+
+        function setTestimonial(index) {
+            currentTestimonial = index;
+            updateTestimonial();
+        }
+
+        function submitEmail(event) {
+            if (event.preventDefault) {
+                event.preventDefault();
+            } else {
+                event.returnValue = false;
+            }
+            var emailInput = document.querySelector('.email-input');
+            var email = emailInput.value;
+            if (email) {
+                alert('Thank you! Your Safe Snack Guide download link has been sent to ' + email);
+                emailInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
